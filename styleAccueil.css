@@ -1,0 +1,71 @@
+@font-face
+{
+	font-family: 'Turtles';
+	src:url('fonts/turtles/Turtles.otf');
+}
+
+@keyframes slidein {
+    from {
+      margin-left: 100%;
+      /* width: 300%; */
+    }
+  
+    to {
+      margin-left: 0%;
+      /* width: 100%; */
+    }
+  }
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: url('/images/pong.jpg') center no-repeat;
+    background-size: cover;
+}
+
+
+.title{
+    color: red;
+    display: flex;
+    font-family: 'Turtles';
+    font-size: 100px;
+    justify-content: center;
+    
+}
+
+#start{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+}
+
+.imageOfTrump{
+    animation-duration: 3s;
+    animation-name: slidein;
+    height: 300px;
+    margin-top: 50px;
+}
+
+.start-button{
+    border: 1px solid black;
+    border-radius: 5px;
+    background: white;
+    font-size: 16px;
+    margin-top: 50px;
+    padding: 10px;
+}
+
+.start-button:hover{
+    background: red;
+    color: white;
+}
+
+
+

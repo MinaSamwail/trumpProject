@@ -1,18 +1,16 @@
 @font-face
 {
 	font-family: 'Turtles';
-	src:url('fonts/turtles/Turtles.otf');
+	src:url('/fonts/turtles/Turtles.otf');
 }
 
 @keyframes slidein {
     from {
-      margin-left: 100%;
-      /* width: 300%; */
+      margin-left: 100%;   
     }
   
     to {
       margin-left: 0%;
-      /* width: 100%; */
     }
   }
 
@@ -26,7 +24,6 @@ body{
     background: url('/images/pong.jpg') center no-repeat;
     background-size: cover;
 }
-
 
 .title{
     color: red;
@@ -53,14 +50,14 @@ body{
     margin-top: 50px;
 }
 
-.start-button{
+form .start-button{
     border: 1px solid black;
     border-radius: 5px;
     background: white;
     font-size: 16px;
     margin-top: 50px;
     padding: 10px;
-}
+} 
 
 .start-button:hover{
     background: red;

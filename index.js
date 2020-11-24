@@ -1,78 +1,83 @@
-let canvas = document.getElementById("theField");
-let canvasContext = canvas.getContext("2d");
+const canvas = document.getElementById("theField");
+const context = canvas.getContext("2d");
 
-//parametre de la balle
-let ballPositionY = canvas.height / 2;
-let ballPositionX = canvas.width / 2;
-let ballSpeedX = 10;
-let ballSpeedY = 5;
-// let ballSize = 20;
+let rectX = 0;
 
-//  mesure de la réactivité des sites web
-let framePerSecond = 60;
+//ici on creer 2 objets afin de definir les joueurs
+const user = {
+  x: 0,
+  y: canvas.height / 2 - 100 / 2, //tu divises par 2 la hauteur de ta plateform et tu divise par 2 la hauteur de ta raquette et tu soustraits
+  width: 10,
+  height: 100,
+  color: "WHITE",
+  score: 0,
+};
 
-//parametre de la raquete
-let raquetteWidth = 10;
-let raquetteHeight = 100;
-let raquette1Y = 250;
-let raquette2Y = 250;
-// Rajouter la vitesse des raquettes ?
+const computer = {
+  x: canvas.width - 10,
+  y: canvas.height / 2 - 100 / 2,
+  width: 10,
+  height: 100,
+  color: "WHITE",
+  score: 0,
+};
 
-// score des joueurs
-let playerOneScore = 0;
-let playerTwoScore = 0;
+const net = {
+  x: canvas.width / 2,
+  y: 0,
+  width: 2,
+  height: 10,
+  color: "WHITE",
+};
 
-let startGame = document.getElementById("startGame");
-// let pauseTheGame = document.getElementById("pauseTheGame");
-let gameOver = document.getElementById("gameOver");
-let gameplay = document.getElementById("gameplay");
+const ball = {
+  x: canvas.width / 2,
+  y: canvas.height / 2,
+  radius: 10,
+  color: "red",
+};
 
-let startBtn = document.getElementsByClassName("startBtn");
-// let continueBtn = document.getElementsByClassName("continueBtn");
-// let restartBtn = document.getElementsByClassName("restartBtn");
-let tryAgainBtn = document.getElementsByClassName("tryAgainBtn");
-let theField = document.getElementsByClassName("theField");
-let gameMessage = document.getElementsByClassName("gameMessage");
-
-//Parametre
-let scoreToWin = 10;
-// let gamePaused = false;
-let gameInProgress = false;
-
-//Afin d'avoir la largeur et la hauteur de la fenetre
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-//placement des raquettes
-raquette1Y = canvas.height / 2 - raquetteHeight / 2;
-raquette2Y = canvas.height / 2 - raquetteHeight / 2;
-
-//liste des className active or not
-startMenu.className = "active";
-gameplay.className = "";
-gameOver.className = "";
-
-startBtn.addEventListener("click", startGame);
-tryAgainBtn.addEventListener("click", resetGame);
-document.addEventListener("keydown", goDown);
-
-function startGame() {
-  gameInProgress = true;
-  gameplay.className = "";
-  startMenu.className = "";
-  gameOver.className = "";
-  window.setInterval(function () {
-    moveEverything();
-    plateform();
-  }, 1000 / fps);
+// fonction pour les raquettes
+function drawRect(x, y, width, height, color) {
+  context.fillStyle = color;
+  //taille et position de la raquette
+  context.fillRect(x, y, width, height);
 }
 
-function resetGame() {
-  playerOneScore = 0;
-  playerTwoScore = 0;
-  startGame();
-}
-
-// function drawTheGame() {
-// canvasContext.fillRect = "black";
-//   canvasContext.clearRect(0, 0, canvas.height, canvas.width);
+// // creation de la balle
+// function ball(x, y, width, height, color) {
+//   context.fillStyle = "red";
+//   context.beginPath();
+//   context.arc(400, 300, 100, 0, Math.PI * 2, false); //x,y,radius
+//   context.closePath();
+//   context.fill();
 // }
+
+function drawText(text, x, y, color) {
+  context.fillStyle = color;
+  context.font = "75px fantasy";
+  context.fillText(text, x, y);
+}
+
+function render() {
+  drawRect(0, 0, canvas.width, canvas.height, "black");
+  drawRect(user.x, user.y, user.width, user.height, user.color);
+  drawNet();
+  drawRect(
+    computer.x,
+    computer.y,
+    computer.width,
+    computer.height,
+    computer.color
+  );
+  // drawCircle(ball.x, ball.y, ball.radius, ball.color);
+  drawText(user.score, canvas.width / 4, canvas.height / 5, "WHITE");
+  drawText(computer.score, (3 * canvas.width) / 4, canvas.height / 5, "WHITE");
+}
+setInterval(render, 1000);
+
+function drawNet() {
+  for (let i = 0; i <= canvas.height; i += 15) {
+    drawRect(net.x, net.y + i, net.width, net.height, net.color);
+  }
+}

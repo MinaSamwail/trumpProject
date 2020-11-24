@@ -3,6 +3,9 @@ const context = canvas.getContext("2d");
 
 const message = document.getElementsByClassName("gameMessage");
 
+var img = new Image();
+img.src = "/images/newtrump.png";
+
 let rectX = 0;
 let winningScore = 3;
 
@@ -51,11 +54,7 @@ function drawRect(x, y, width, height, color) {
 
 // creation de la balle
 function drawCircle(x, y, radius, color) {
-  context.fillStyle = color;
-  context.beginPath();
-  context.arc(x, y, radius, 0, Math.PI * 2, false);
-  context.closePath();
-  context.fill();
+  context.drawImage(img, x, y, 50, 50);
 }
 
 function drawText(text, x, y, color) {
@@ -64,7 +63,7 @@ function drawText(text, x, y, color) {
   context.fillText(text, x, y);
 }
 
-function render() {
+function drawEverything() {
   drawRect(0, 0, canvas.width, canvas.height, "BLACK"); // creation du canvas
   drawRect(user.x, user.y, user.width, user.height, user.color);
   drawNet();
@@ -75,11 +74,12 @@ function render() {
     computer.height,
     computer.color
   );
-  drawCircle(ball.x, ball.y, ball.radius, ball.color); // 100, 100, 50, 'WHITE'
+
+  drawCircle(ball.x, ball.y, ball.radius, ball.color);
   drawText(user.score, canvas.width / 4, canvas.height / 5, "WHITE");
   drawText(computer.score, (3 * canvas.width) / 4, canvas.height / 5, "WHITE");
 }
-setInterval(render, 1000); 
+setInterval(drawEverything, 1000);
 
 function drawNet() {
   for (let i = 0; i <= canvas.height; i += 15) {
@@ -100,7 +100,7 @@ function resetBall() {
   ball.y = canvas.height / 2;
   ball.velocityX = -ball.velocityX;
   ball.speed = 7;
-
+}
 //   if (user.score == winningScore) {
 //     gameOver();
 //   } else if (computer.score == winningScore) {
@@ -141,10 +141,7 @@ function update() {
   ball.y += ball.velocityY;
 
   //pilote automatique
-  // let computerLevel = 0.1;
   computer.y += ball.y - (computer.y + computer.height / 2); // avec cette formule il est imbatable
-  // let computerLevel = 0.1;
-  // computer.y += (ball.y - computer.height / 2) * computerLevel;
 
   //update the score
   if (ball.x - ball.radius < 0) {
@@ -180,7 +177,7 @@ function update() {
 
 function game() {
   update();
-  render();
+  drawEverything();
 }
 
 const framePerSecond = 50;

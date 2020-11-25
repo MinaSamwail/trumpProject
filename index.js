@@ -1,8 +1,6 @@
 const canvas = document.getElementById("theField");
 const context = canvas.getContext("2d");
 
-const startBtn = document.getElementById("startBtn");
-
 var img = new Image();
 img.src = "/images/newtrump.png";
 let hitPaddle = new Audio();
@@ -10,6 +8,7 @@ hitPaddle.src = "/sound/ping.mp3";
 
 let rectX = 0;
 let winningScore = 3;
+let showTheScreen = true; // ICI
 
 const user = {
   x: 0,
@@ -73,6 +72,19 @@ function drawNet() {
 
 function drawEverything() {
   drawRect(0, 0, canvas.width, canvas.height, "BLACK"); // creation du canvas
+
+  if (showTheScreen) {
+    context.fillStyle = "WHITE";
+
+    if (user.score == winningScore) {
+      context.fillText("You cheated", canvas.width / 3, canvas.height / 3);
+    } else if (computer.score == winningScore) {
+      clearInterval(endOfGame);
+      context.fillText("I won easily", canvas.width / 3, canvas.height / 3);
+    }
+    // context.fillText("wanna continue", 350, 200);
+  }
+
   drawRect(user.x, user.y, user.width, user.height, user.color);
   drawNet();
   drawRect(
@@ -98,11 +110,14 @@ function movePaddle(evt) {
 }
 
 function resetBall() {
+  if (user.score == winningScore || computer.score == winningScore) {
+    showTheScreen = true;
+  }
+
   ball.x = canvas.width / 2;
   ball.y = canvas.height / 2;
   ball.velocityX = -ball.velocityX;
   ball.speed = 7;
-  gameOver();
 }
 
 function collision(b, p) {
@@ -128,8 +143,6 @@ function update() {
   ball.x += ball.velocityX;
   ball.y += ball.velocityY;
 
-  startBtn.style.display = "none";
-
   //pilote automatique
   computer.y += ball.y - (computer.y + computer.height / 2); // avec cette formule il est imbatable
 
@@ -140,12 +153,12 @@ function update() {
   } else if (ball.x + ball.radius > canvas.width) {
     user.score++;
     resetBall();
-  } else if (computer.score == winningScore || user.score == winningScore) {
-    gameOver();
-    // clearInterval(setInterval);
-    // alert("GAME OVER ! YOU LOOSER");
-    // document.location.reload();
   }
+  // else if (user.score == winningScore || computer.score == winningScore) {
+  //   clearInterval(setInterval);
+  //   alert("GAME OVER !");
+  //   document.location.reload();
+  // }
 
   if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
     ball.velocityY = -ball.velocityY; // si la balle touche les rebords(les rebords sont definis par la hauteur du canvas et si la balle touche l'un de ces rebords il faut qu'elle change de direction) change de direction
@@ -177,9 +190,5 @@ function game() {
   drawEverything();
 }
 
-function gameOver(playerWon) {
-  clearInterval(setInterval);
-}
-
 const framePerSecond = 50;
-setInterval(game, 1000 / framePerSecond); // cette fonction permet d'appeler la fonction game 60 fois par second
+let endOfGame = setInterval(game, 1000 / framePerSecond); // cette fonction permet d'appeler la fonction game 60 fois par second

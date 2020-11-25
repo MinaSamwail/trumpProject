@@ -1,10 +1,7 @@
 const canvas = document.getElementById("theField");
 const context = canvas.getContext("2d");
 
-// const gameOverMenu = document.getElementById("gameOver");
-// const gameMessage = document.getElementsByClassName("gameMessage");
-// let playing = true;
-// gameOverMenu.className = "inactive";
+const startBtn = document.getElementById("startBtn");
 
 var img = new Image();
 img.src = "/images/newtrump.png";
@@ -16,7 +13,7 @@ let winningScore = 3;
 
 const user = {
   x: 0,
-  y: canvas.height / 2 - 100 / 2, //tu divises par 2 la hauteur de la plateform et tu divise par 2 la hauteur de ta raquette et tu soustraits
+  y: canvas.height / 2 - 100 / 2, //tu divises par 2 la hauteur de la plateform et tu divise par 2 la hauteur de ta raquette et tu soustraits (afin de placer la raquette au milieu)
   width: 10,
   height: 100,
   color: "WHITE",
@@ -50,7 +47,7 @@ const ball = {
   color: "RED",
 };
 
-// fonction me permettant de creer les composant dont j'ai besoin pour le jeu
+// fonction me permettant de creer les raquettes
 function drawRect(x, y, width, height, color) {
   context.fillStyle = color;
   //taille et position de la raquette
@@ -66,6 +63,12 @@ function drawText(text, x, y, color) {
   context.fillStyle = color;
   context.font = "75px fantasy";
   context.fillText(text, x, y);
+}
+
+function drawNet() {
+  for (let i = 0; i <= canvas.height; i += 15) {
+    drawRect(net.x, net.y + i, net.width, net.height, net.color);
+  }
 }
 
 function drawEverything() {
@@ -84,13 +87,7 @@ function drawEverything() {
   drawText(user.score, canvas.width / 4, canvas.height / 5, "WHITE");
   drawText(computer.score, (3 * canvas.width) / 4, canvas.height / 5, "WHITE");
 }
-setInterval(drawEverything, 1000);
-
-function drawNet() {
-  for (let i = 0; i <= canvas.height; i += 15) {
-    drawRect(net.x, net.y + i, net.width, net.height, net.color);
-  }
-}
+let gameInterval = setInterval(drawEverything, 1000);
 
 // controle du user paddle
 canvas.addEventListener("mousemove", movePaddle);
@@ -105,6 +102,7 @@ function resetBall() {
   ball.y = canvas.height / 2;
   ball.velocityX = -ball.velocityX;
   ball.speed = 7;
+  gameOver();
 }
 
 function collision(b, p) {
@@ -130,6 +128,8 @@ function update() {
   ball.x += ball.velocityX;
   ball.y += ball.velocityY;
 
+  startBtn.style.display = "none";
+
   //pilote automatique
   computer.y += ball.y - (computer.y + computer.height / 2); // avec cette formule il est imbatable
 
@@ -141,7 +141,7 @@ function update() {
     user.score++;
     resetBall();
   } else if (computer.score == winningScore || user.score == winningScore) {
-    // gameOver();
+    gameOver();
     // clearInterval(setInterval);
     // alert("GAME OVER ! YOU LOOSER");
     // document.location.reload();
@@ -177,17 +177,9 @@ function game() {
   drawEverything();
 }
 
-// function gameOver(playerWon) {
-//   playing = false;
-//   clearInterval(setInterval);
-//   gameMessage.textContent = "";
-//   if (playerWon) {
-//     gameMessage.textContent = "You Cheated";
-//   } else {
-//     gameMessage.textContent = "You Looser";
-//   }
-//   gameOverMenu.className = "active";
-// }
+function gameOver(playerWon) {
+  clearInterval(setInterval);
+}
 
 const framePerSecond = 50;
 setInterval(game, 1000 / framePerSecond); // cette fonction permet d'appeler la fonction game 60 fois par second

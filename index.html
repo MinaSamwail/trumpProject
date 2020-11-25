@@ -17,5 +17,13 @@
       </form>
       <!-- formaction va me permettre de mettre un lien vers le quel le button sera lié -->
     </div>
+    <div id="audio" policy="no-user-gesture-required"></div>
+    <script>
+      document.querySelector("body").addEventListener("click", function () {
+        let pong = new Audio();
+        pong.src = "/sound/pong.mp3";
+        pong.play();
+      });
+    </script>
   </body>
 </html>

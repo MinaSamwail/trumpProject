@@ -1,19 +1,24 @@
 const canvas = document.getElementById("theField");
 const context = canvas.getContext("2d");
 
-const message = document.getElementsByClassName("gameMessage");
+// const gameOverMenu = document.getElementById("gameOver");
+// const gameMessage = document.getElementsByClassName("gameMessage");
+// let playing = true;
+// gameOverMenu.className = "inactive";
 
 var img = new Image();
 img.src = "/images/newtrump.png";
+let hitPaddle = new Audio();
+hitPaddle.src = "/sound/ping.mp3";
 
 let rectX = 0;
 let winningScore = 3;
 
 const user = {
   x: 0,
-  y: canvas.height / 2 - 100 / 2, //tu divises par 2 la hauteur de ta plateform et tu divise par 2 la hauteur de ta raquette et tu soustraits
+  y: canvas.height / 2 - 100 / 2, //tu divises par 2 la hauteur de la plateform et tu divise par 2 la hauteur de ta raquette et tu soustraits
   width: 10,
-  height: 100, //hauteur de la raquette
+  height: 100,
   color: "WHITE",
   score: 0,
 };
@@ -38,10 +43,10 @@ const net = {
 const ball = {
   x: canvas.width / 2,
   y: canvas.height / 2,
-  radius: 10, // augmenter le radius peut etre
+  radius: 10,
   speed: 5,
   velocityX: 5,
-  velocityY: 5, //cette objet me permet de definir la vitesse et la direction de la balle
+  velocityY: 5, //ce parametre me permet de definir la vitesse et la direction de la balle
   color: "RED",
 };
 
@@ -53,7 +58,7 @@ function drawRect(x, y, width, height, color) {
 }
 
 // creation de la balle
-function drawCircle(x, y, radius, color) {
+function drawCircle(x, y) {
   context.drawImage(img, x, y, 50, 50);
 }
 
@@ -101,21 +106,6 @@ function resetBall() {
   ball.velocityX = -ball.velocityX;
   ball.speed = 7;
 }
-//   if (user.score == winningScore) {
-//     gameOver();
-//   } else if (computer.score == winningScore) {
-//     gameOver();
-//   }
-// }
-
-// function gameOver(playerOne) {
-//   clearInterval(call);
-//   if (playerOne) {
-//     message.textContent = "You cheated";
-//   } else {
-//     message.textContent = "Looser";
-//   }
-// }
 
 function collision(b, p) {
   //paddle
@@ -150,6 +140,11 @@ function update() {
   } else if (ball.x + ball.radius > canvas.width) {
     user.score++;
     resetBall();
+  } else if (computer.score == winningScore || user.score == winningScore) {
+    // gameOver();
+    // clearInterval(setInterval);
+    // alert("GAME OVER ! YOU LOOSER");
+    // document.location.reload();
   }
 
   if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
@@ -159,8 +154,10 @@ function update() {
 
   if (collision)
     if (collision(ball, player)) {
-      // la Partie incroyablement galere
-      //la ou la balle va taper
+      //play sound
+      hitPaddle.play();
+
+      //ce calcul permet de determiner les points ou la balle va taper la raquette
       let collisionPoint = ball.y - (player.y + player.height / 2);
 
       collisionPoint = collisionPoint / (player.height / 2);
@@ -179,6 +176,18 @@ function game() {
   update();
   drawEverything();
 }
+
+// function gameOver(playerWon) {
+//   playing = false;
+//   clearInterval(setInterval);
+//   gameMessage.textContent = "";
+//   if (playerWon) {
+//     gameMessage.textContent = "You Cheated";
+//   } else {
+//     gameMessage.textContent = "You Looser";
+//   }
+//   gameOverMenu.className = "active";
+// }
 
 const framePerSecond = 50;
 setInterval(game, 1000 / framePerSecond); // cette fonction permet d'appeler la fonction game 60 fois par second

@@ -18,11 +18,12 @@ body {
 
 button{
     border-radius: 10px;
-    background: red;
+    background: white;
     border: 0;
     cursor: pointer;
-    color: white;
+    color: red;
     display: block;
+    font-size: 16px;
     margin: auto;
     padding: 10px;
 }

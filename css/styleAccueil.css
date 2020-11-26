@@ -1,7 +1,7 @@
 @font-face
 {
 	font-family: 'Turtles';
-	src:url('/fonts/turtles/Turtles.otf');
+	src:url('./../fonts/turtles/Turtles.otf');
 }
 
 @keyframes slidein {

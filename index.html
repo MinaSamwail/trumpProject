@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/styleAccueil.css" />
+    <link rel="stylesheet" href="./css/styleAccueil.css" />
     <title>Trump Pong</title>
   </head>
   <body>
     <h1 class="title">Trump Pong</h1>
     <div id="start">
-      <img class="imageOfTrump" src="/images/newtrump.png" alt="Trump" />
+      <img class="imageOfTrump" src="./images/newtrump.png" alt="Trump" />
       <form>
         <button class="start-button" formaction="./game.html">
           Make America Great Again
@@ -21,7 +21,7 @@
     <script>
       document.querySelector("body").addEventListener("click", function () {
         let pong = new Audio();
-        pong.src = "/sound/pong.mp3";
+        pong.src = "./sound/pong.mp3";
         pong.play();
       });
     </script>

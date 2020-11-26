@@ -2,9 +2,9 @@ const canvas = document.getElementById("theField");
 const context = canvas.getContext("2d");
 
 var img = new Image();
-img.src = "/images/newtrump.png";
+img.src = "./images/newtrump.png";
 let hitPaddle = new Audio();
-hitPaddle.src = "/sound/ping.mp3";
+hitPaddle.src = "./sound/ping.mp3";
 
 let rectX = 0;
 let winningScore = 3;
@@ -60,7 +60,7 @@ function drawCircle(x, y) {
 
 function drawText(text, x, y, color) {
   context.fillStyle = color;
-  context.font = "75px fantasy";
+  context.font = "75px Arial";
   context.fillText(text, x, y);
 }
 
@@ -71,18 +71,18 @@ function drawNet() {
 }
 
 function drawEverything() {
-  drawRect(0, 0, canvas.width, canvas.height, "BLACK"); // creation du canvas
+  drawRect(0, 0, canvas.width, canvas.height, "BLACK"); // creation de la zone de jeu
 
   if (showTheScreen) {
     context.fillStyle = "WHITE";
 
     if (user.score == winningScore) {
-      context.fillText("You cheated", canvas.width / 3, canvas.height / 3);
+      clearInterval(endOfGame);
+      context.fillText("You cheated", 250, 250);
     } else if (computer.score == winningScore) {
       clearInterval(endOfGame);
-      context.fillText("I won easily", canvas.width / 3, canvas.height / 3);
+      context.fillText("I won easily", 250, 250);
     }
-    // context.fillText("wanna continue", 350, 200);
   }
 
   drawRect(user.x, user.y, user.width, user.height, user.color);
@@ -154,11 +154,6 @@ function update() {
     user.score++;
     resetBall();
   }
-  // else if (user.score == winningScore || computer.score == winningScore) {
-  //   clearInterval(setInterval);
-  //   alert("GAME OVER !");
-  //   document.location.reload();
-  // }
 
   if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
     ball.velocityY = -ball.velocityY; // si la balle touche les rebords(les rebords sont definis par la hauteur du canvas et si la balle touche l'un de ces rebords il faut qu'elle change de direction) change de direction

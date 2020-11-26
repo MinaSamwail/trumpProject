@@ -21,7 +21,7 @@
 }
 
 body{
-    background: url('./images/pong.jpg') center no-repeat;
+    background: url('./../images/pong.jpg') center no-repeat;
     background-size: cover;
 }
 

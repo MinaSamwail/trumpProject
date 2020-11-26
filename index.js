@@ -7,7 +7,7 @@ let hitPaddle = new Audio();
 hitPaddle.src = "./sound/ping.mp3";
 
 let rectX = 0;
-let winningScore = 3;
+let winningScore = 2;
 let showTheScreen = true;
 let resetButton;
 
@@ -42,7 +42,7 @@ const ball = {
   y: canvas.height / 2,
   radius: 10,
   speed: 5,
-  velocityX: 5,
+  velocityX: 5, // vitesse et direction
   velocityY: 5, //ce parametre me permet de definir la vitesse et la direction de la balle
   color: "RED",
 };
@@ -146,8 +146,8 @@ function collision(b, p) {
   p.right = p.x + p.width;
 
   // ball
-  b.top = b.y - b.radius;
-  b.bottom = b.y + b.radius;
+  b.top = b.y - b.radius; //ball top
+  b.bottom = b.y + b.radius; // ball bottom
   b.left = b.x - b.radius;
   b.right = b.x + b.radius;
 

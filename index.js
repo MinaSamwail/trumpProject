@@ -8,7 +8,8 @@ hitPaddle.src = "./sound/ping.mp3";
 
 let rectX = 0;
 let winningScore = 3;
-let showTheScreen = true; // ICI
+let showTheScreen = true;
+let resetButton;
 
 const user = {
   x: 0,
@@ -70,17 +71,35 @@ function drawNet() {
   }
 }
 
+function gameOver() {
+  clearInterval(endOfGame);
+  clearInterval(gameInterval);
+  resetButton = document.createElement("button");
+  resetButton.textContent = "Wanna Loose Again";
+  document.body.appendChild(resetButton);
+  resetButton.addEventListener("click", resetGame);
+}
+
+function resetGame() {
+  endOfGame = setInterval(game, 1000 / framePerSecond); // cette fonction permet d'appeler la fonction game 60 fois par second
+  gameInterval = setInterval(drawEverything, 1000);
+  user.score = 0;
+  computer.score = 0;
+  showTheScreen = false;
+  resetButton.parentNode.removeChild(resetButton);
+  game();
+}
+
 function drawEverything() {
   drawRect(0, 0, canvas.width, canvas.height, "BLACK"); // creation de la zone de jeu
 
   if (showTheScreen) {
     context.fillStyle = "WHITE";
-
     if (user.score == winningScore) {
-      clearInterval(endOfGame);
+      gameOver();
       context.fillText("You cheated", 250, 250);
     } else if (computer.score == winningScore) {
-      clearInterval(endOfGame);
+      gameOver();
       context.fillText("I won easily", 250, 250);
     }
   }
@@ -99,7 +118,6 @@ function drawEverything() {
   drawText(user.score, canvas.width / 4, canvas.height / 5, "WHITE");
   drawText(computer.score, (3 * canvas.width) / 4, canvas.height / 5, "WHITE");
 }
-let gameInterval = setInterval(drawEverything, 1000);
 
 // controle du user paddle
 canvas.addEventListener("mousemove", movePaddle);
@@ -187,3 +205,4 @@ function game() {
 
 const framePerSecond = 50;
 let endOfGame = setInterval(game, 1000 / framePerSecond); // cette fonction permet d'appeler la fonction game 60 fois par second
+let gameInterval = setInterval(drawEverything, 1000);
